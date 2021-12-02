@@ -2,40 +2,24 @@ package dev.culp;
 
 import static java.util.stream.Collectors.toList;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.IntStream;
 
 public final class Day1 implements Puzzle {
 
-  private final List<Integer> example = readFile("day1-example.txt");
-  private final List<Integer> input = readFile("day1.txt");
+  @Override
+  public Result solve() {
+    final Function<String, Integer> mappingFn = Integer::parseInt;
+    final var inputs = readFile(1, mappingFn);
 
-  public int part1Example() {
-    return countIncreases(example);
-  }
+    final var part1Example = countIncreases(inputs.example());
+    final var part1 = countIncreases(inputs.input());
 
-  public int part1() {
-    return countIncreases(input);
-  }
+    final var part2Example = countIncreases(windowSum(inputs.example(), 3));
+    final var part2 = countIncreases(windowSum(inputs.input(), 3));
 
-  public int part2Example() {
-    return countIncreases(windowSum(example, 3));
-  }
-
-  public int part2() {
-    return countIncreases(windowSum(input, 3));
-  }
-
-  private static List<Integer> readFile(String filename) {
-    try {
-      return Files.lines(Paths.get(Day1.class.getClassLoader().getResource(filename).toURI()))
-          .map(Integer::parseInt)
-          .collect(toList());
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
+    return new Result(part1Example, part1, part2Example, part2);
   }
 
   private static int countIncreases(List<Integer> in) {

@@ -1,30 +1,28 @@
 package dev.culp;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class AocTests {
 
-  @Test
-  void day1() {
-    final Puzzle puzzle = new Day1();
+  @ParameterizedTest
+  @MethodSource("puzzles")
+  void runAll(Puzzle puzzle, int example1, int example2) {
+    final var result = puzzle.solve();
 
-    assertEquals(7, puzzle.part1Example());
-    System.out.println(puzzle.part1());
+    assertEquals(example1, result.part1Example());
+    System.out.println(result.part1());
 
-    assertEquals(5, puzzle.part2Example());
-    System.out.println(puzzle.part2());
+    assertEquals(example2, result.part2Example());
+    System.out.println(result.part2());
   }
 
-  @Test
-  void day2() {
-    final Puzzle puzzle = new Day2();
-
-    assertEquals(150, puzzle.part1Example());
-    System.out.println(puzzle.part1());
-
-    assertEquals(900, puzzle.part2Example());
-    System.out.println(puzzle.part2());
+  static Stream<Arguments> puzzles() {
+    return Stream.of(arguments(new Day1(), 7, 5), arguments(new Day2(), 150, 900));
   }
 }

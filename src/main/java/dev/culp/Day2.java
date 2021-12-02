@@ -1,44 +1,26 @@
 package dev.culp;
 
-import static java.util.stream.Collectors.toList;
-
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
+import java.util.function.Function;
 
 public final class Day2 implements Puzzle {
 
-  private final List<Command> example = readFile("day2-example.txt");
-  private final List<Command> input = readFile("day2.txt");
+  @Override
+  public Result solve() {
+    final Function<String, Command> mappingFn =
+        line -> {
+          final var parts = line.split(" ");
+          return new Command(parts[0], Integer.parseInt(parts[1]));
+        };
+    final var inputs = readFile(2, mappingFn);
 
-  public int part1Example() {
-    return runCommands(example);
-  }
+    final var part1Example = runCommands(inputs.example());
+    final var part1 = runCommands(inputs.input());
 
-  public int part1() {
-    return runCommands(input);
-  }
+    final var part2Example = runAimCommands(inputs.example());
+    final var part2 = runAimCommands(inputs.input());
 
-  public int part2Example() {
-    return runAimCommands(example);
-  }
-
-  public int part2() {
-    return runAimCommands(input);
-  }
-
-  private static List<Command> readFile(String filename) {
-    try {
-      return Files.lines(Paths.get(Day1.class.getClassLoader().getResource(filename).toURI()))
-          .map(
-              line -> {
-                final var parts = line.split(" ");
-                return new Command(parts[0], Integer.parseInt(parts[1]));
-              })
-          .collect(toList());
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
+    return new Result(part1Example, part1, part2Example, part2);
   }
 
   private static int runCommands(List<Command> commands) {
