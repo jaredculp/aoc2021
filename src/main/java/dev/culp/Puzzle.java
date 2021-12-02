@@ -7,14 +7,31 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.function.Function;
 
-public interface Puzzle {
-  record Result(int part1Example, int part1, int part2Example, int part2) {}
+public abstract class Puzzle<T> {
+  private final Inputs<T> inputs;
 
-  Result solve();
+  Puzzle(int day, Function<String, T> mappingFn) {
+    this.inputs = readFile(day, mappingFn);
+  }
 
   record Inputs<T>(List<T> example, List<T> input) {}
 
-  default <T> Inputs<T> readFile(int day, Function<String, T> mappingFn) {
+  record Result(int part1Example, int part1, int part2Example, int part2) {}
+
+  public Result solve() {
+    final var part1Example = part1(inputs.example());
+    final var part1 = part1(inputs.input());
+    final var part2Example = part2(inputs.example());
+    final var part2 = part2(inputs.input());
+    return new Result(part1Example, part1, part2Example, part2);
+  }
+  ;
+
+  abstract int part1(List<T> input);
+
+  abstract int part2(List<T> input);
+
+  private static <T> Inputs<T> readFile(int day, Function<String, T> mappingFn) {
     final Function<String, List<T>> read =
         f -> {
           try {

@@ -1,30 +1,21 @@
 package dev.culp;
 
 import java.util.List;
-import java.util.function.Function;
 
-public final class Day2 implements Puzzle {
+public final class Day2 extends Puzzle<Day2.Command> {
 
-  @Override
-  public Result solve() {
-    final Function<String, Command> mappingFn =
+  Day2() {
+    super(
+        2,
         line -> {
           final var parts = line.split(" ");
           return new Command(parts[0], Integer.parseInt(parts[1]));
-        };
-    final var inputs = readFile(2, mappingFn);
-
-    final var part1Example = runCommands(inputs.example());
-    final var part1 = runCommands(inputs.input());
-
-    final var part2Example = runAimCommands(inputs.example());
-    final var part2 = runAimCommands(inputs.input());
-
-    return new Result(part1Example, part1, part2Example, part2);
+        });
   }
 
-  private static int runCommands(List<Command> commands) {
-    return commands.stream()
+  @Override
+  public int part1(List<Command> input) {
+    return input.stream()
         .reduce(
             new Coordinates(0, 0),
             (coords, command) -> {
@@ -45,8 +36,9 @@ public final class Day2 implements Puzzle {
         .calculate();
   }
 
-  private static int runAimCommands(List<Command> commands) {
-    return commands.stream()
+  @Override
+  public int part2(List<Command> input) {
+    return input.stream()
         .reduce(
             new AimCoordinates(0, 0, 0),
             (coords, command) -> {
