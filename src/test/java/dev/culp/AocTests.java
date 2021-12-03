@@ -12,17 +12,20 @@ class AocTests {
 
   @ParameterizedTest
   @MethodSource("puzzles")
-  void runAll(Puzzle puzzle, int example1, int example2) {
+  void runAll(Puzzle<?> puzzle, int example1, int example2) {
     final var result = puzzle.solve();
 
     assertEquals(example1, result.part1Example());
-    System.out.println(result.part1());
+    System.out.println(puzzle.getClass().getSimpleName() + " part1: " + result.part1());
 
     assertEquals(example2, result.part2Example());
-    System.out.println(result.part2());
+    System.out.println(puzzle.getClass().getSimpleName() + " part2: " + result.part2());
   }
 
   static Stream<Arguments> puzzles() {
-    return Stream.of(arguments(new Day1(), 7, 5), arguments(new Day2(), 150, 900));
+    return Stream.of(
+        arguments(new Day1(), 7, 5),
+        arguments(new Day2(), 150, 900),
+        arguments(new Day3(), 198, 230));
   }
 }
