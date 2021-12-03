@@ -1,8 +1,11 @@
 package dev.culp;
 
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 public final class Day3 extends Puzzle<String> {
 
@@ -12,30 +15,34 @@ public final class Day3 extends Puzzle<String> {
 
   @Override
   public int part1(List<String> input) {
-    final var gamma = new StringBuilder();
-    final var epsilon = new StringBuilder();
+    return IntStream.range(0, input.get(0).length()).mapToObj(x -> x)
+        .reduce(new Calculator(), (results, i) -> {
+          final var counts = input.stream().collect(groupingBy(x -> x.charAt(i), counting()));
+          if (counts.get('0') > counts.get('1')) {
+            results.gamma().append("0");
+            results.epsilon().append("1");
+          } else {
+            results.gamma().append("1");
+            results.epsilon().append("0");
+          }
+          return results;
+        }, (a, b) -> a.combine(b)).value();
+  }
 
-    for (int j = 0; j < input.get(0).length(); j++) {
-      var zeros = 0;
-      var ones = 0;
-      for (int i = 0; i < input.size(); i++) {
-        if (input.get(i).charAt(j) == '0') {
-          zeros++;
-        } else {
-          ones++;
-        }
-      }
-
-      if (zeros > ones) {
-        gamma.append("0");
-        epsilon.append("1");
-      } else {
-        gamma.append("1");
-        epsilon.append("0");
-      }
+  record Calculator(StringBuilder gamma, StringBuilder epsilon) {
+    Calculator() {
+      this(new StringBuilder(), new StringBuilder());
     }
 
-    return calculate(gamma.toString(), epsilon.toString());
+    Calculator combine(Calculator other) {
+      return new Calculator(
+          new StringBuilder().append(gamma.toString()).append(other.gamma().toString()),
+          new StringBuilder().append(epsilon.toString()).append(other.epsilon().toString()));
+    }
+
+    int value() {
+      return binary(gamma.toString()) * binary(epsilon.toString());
+    }
   }
 
   @Override
@@ -43,11 +50,11 @@ public final class Day3 extends Puzzle<String> {
     final var oxygen = filter(input, 1, 0).get(0);
     final var co2 = filter(input, 0, 0).get(0);
 
-    return calculate(oxygen, co2);
+    return binary(oxygen) * binary(co2);
   }
 
-  private static int calculate(String a, String b) {
-    return Integer.parseInt(a, 2) * Integer.parseInt(b, 2);
+  private static int binary(String a) {
+    return Integer.parseInt(a, 2);
   }
 
   private static List<String> filter(List<String> input, int keep, int position) {
