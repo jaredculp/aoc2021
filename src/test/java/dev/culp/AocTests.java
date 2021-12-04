@@ -26,6 +26,7 @@ class AocTests {
     return Stream.of(
         arguments(new Day1(), 7, 5),
         arguments(new Day2(), 150, 900),
-        arguments(new Day3(), 198, 230));
+        arguments(new Day3(), 198, 230),
+        arguments(new Day4(), 4512, 1924));
   }
 }
