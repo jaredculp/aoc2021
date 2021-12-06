@@ -16,7 +16,7 @@ public abstract class Puzzle<T> {
 
   record Inputs<T>(List<T> example, List<T> input) {}
 
-  record Result(int part1Example, int part1, int part2Example, int part2) {}
+  record Result(long part1Example, long part1, long part2Example, long part2) {}
 
   public Result solve() {
     final var part1Example = part1(inputs.example());
@@ -27,9 +27,9 @@ public abstract class Puzzle<T> {
   }
   ;
 
-  abstract int part1(List<T> input);
+  abstract long part1(List<T> input);
 
-  abstract int part2(List<T> input);
+  abstract long part2(List<T> input);
 
   private static <T> Inputs<T> readFile(int day, Function<String, T> mappingFn) {
     final Function<String, List<T>> read =

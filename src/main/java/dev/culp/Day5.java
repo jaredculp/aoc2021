@@ -1,10 +1,8 @@
 package dev.culp;
 
-import dev.culp.Day5.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -33,12 +31,12 @@ public final class Day5 extends Puzzle<Day5.Line> {
   record Line(Point a, Point b) {}
 
   @Override
-  public int part1(List<Line> input) {
+  public long part1(List<Line> input) {
     return solve(input, false);
   }
 
   @Override
-  public int part2(List<Line> input) {
+  public long part2(List<Line> input) {
     return solve(input, true);
   }
 
@@ -94,9 +92,8 @@ public final class Day5 extends Puzzle<Day5.Line> {
                   a.putAll(b);
                   return a;
                 })
-            .entrySet()
+            .values()
             .stream()
-            .map(Map.Entry::getValue)
             .filter(val -> val >= 2)
             .count();
   }

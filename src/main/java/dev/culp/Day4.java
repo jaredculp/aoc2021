@@ -118,14 +118,14 @@ public final class Day4 extends Puzzle<String> {
   }
 
   @Override
-  public int part1(List<String> input) {
+  public long part1(List<String> input) {
     final var game = createGame(input);
     game.play();
     return game.getFirstWinner();
   }
 
   @Override
-  public int part2(List<String> input) {
+  public long part2(List<String> input) {
     final var game = createGame(input);
     game.play();
     return game.getLastWinner();

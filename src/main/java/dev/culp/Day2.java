@@ -14,7 +14,7 @@ public final class Day2 extends Puzzle<Day2.Command> {
   }
 
   @Override
-  public int part1(List<Command> input) {
+  public long part1(List<Command> input) {
     return input.stream()
         .reduce(
             new Coordinates(0, 0),
@@ -32,12 +32,12 @@ public final class Day2 extends Puzzle<Day2.Command> {
 
               return new Coordinates(newX, newY);
             },
-            (a, b) -> a.combine(b))
+            Coordinates::combine)
         .calculate();
   }
 
   @Override
-  public int part2(List<Command> input) {
+  public long part2(List<Command> input) {
     return input.stream()
         .reduce(
             new AimCoordinates(0, 0, 0),
@@ -46,18 +46,18 @@ public final class Day2 extends Puzzle<Day2.Command> {
               var newY = coords.y;
               var newAim = coords.aim;
 
-              if (command.op().equals("down")) {
-                newAim += command.val();
-              } else if (command.op().equals("up")) {
-                newAim -= command.val();
-              } else if (command.op().equals("forward")) {
-                newX += command.val();
-                newY += newAim * command.val();
+              switch (command.op()) {
+                case "down" -> newAim += command.val();
+                case "up" -> newAim -= command.val();
+                case "forward" -> {
+                  newX += command.val();
+                  newY += newAim * command.val();
+                }
               }
 
               return new AimCoordinates(newX, newY, newAim);
             },
-            (a, b) -> a.combine(b))
+            AimCoordinates::combine)
         .calculate();
   }
 

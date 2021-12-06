@@ -12,12 +12,12 @@ public final class Day1 extends Puzzle<Integer> {
   }
 
   @Override
-  public int part1(List<Integer> input) {
+  public long part1(List<Integer> input) {
     return countIncreases(input);
   }
 
   @Override
-  public int part2(List<Integer> input) {
+  public long part2(List<Integer> input) {
     final var size = 3;
     final var windows =
         IntStream.rangeClosed(0, input.size() - size)

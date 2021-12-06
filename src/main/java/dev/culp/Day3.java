@@ -15,7 +15,7 @@ public final class Day3 extends Puzzle<String> {
   }
 
   @Override
-  public int part1(List<String> input) {
+  public long part1(List<String> input) {
     record Calculator(StringBuilder gamma, StringBuilder epsilon) {
       Calculator() {
         this(new StringBuilder(), new StringBuilder());
@@ -27,13 +27,13 @@ public final class Day3 extends Puzzle<String> {
             new StringBuilder().append(epsilon.toString()).append(other.epsilon().toString()));
       }
 
-      int value() {
+      long value() {
         return binary(gamma.toString()) * binary(epsilon.toString());
       }
     }
 
     return IntStream.range(0, input.get(0).length())
-        .mapToObj(x -> x)
+        .boxed()
         .reduce(
             new Calculator(),
             (results, i) -> {
@@ -47,12 +47,12 @@ public final class Day3 extends Puzzle<String> {
               }
               return results;
             },
-            (a, b) -> a.combine(b))
+            Calculator::combine)
         .value();
   }
 
   @Override
-  public int part2(List<String> input) {
+  public long part2(List<String> input) {
     enum Measurement {
       O2,
       CO2
@@ -89,7 +89,7 @@ public final class Day3 extends Puzzle<String> {
     return binary(o2) * binary(co2);
   }
 
-  private static int binary(String a) {
-    return Integer.parseInt(a, 2);
+  private static long binary(String a) {
+    return Long.parseLong(a, 2);
   }
 }

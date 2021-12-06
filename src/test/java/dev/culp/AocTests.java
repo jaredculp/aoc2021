@@ -12,7 +12,7 @@ class AocTests {
 
   @ParameterizedTest
   @MethodSource("puzzles")
-  void runAll(Puzzle<?> puzzle, int example1, int example2) {
+  void runAll(Puzzle<?> puzzle, long example1, long example2) {
     final var result = puzzle.solve();
 
     assertEquals(example1, result.part1Example());
@@ -24,10 +24,11 @@ class AocTests {
 
   static Stream<Arguments> puzzles() {
     return Stream.of(
-        arguments(new Day1(), 7, 5),
-        arguments(new Day2(), 150, 900),
-        arguments(new Day3(), 198, 230),
-        arguments(new Day4(), 4512, 1924),
-        arguments(new Day5(), 5, 12));
+        arguments(new Day1(), 7L, 5L),
+        arguments(new Day2(), 150L, 900L),
+        arguments(new Day3(), 198L, 230L),
+        arguments(new Day4(), 4512L, 1924L),
+        arguments(new Day5(), 5L, 12L),
+        arguments(new Day6(), 5934L, 26984457539L));
   }
 }
