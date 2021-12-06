@@ -1,0 +1,33 @@
+#!/bin/sh
+
+source .env
+if [ -z "$AOC_COOKIE" ]
+then
+    echo "Must set AOC_COOKIE!"
+    exit
+fi
+
+curl -s -H "Cookie: session=${AOC_COOKIE}" "https://adventofcode.com/2021/day/$1/input" > "src/main/resources/day$1.txt"
+
+cat <<EOF > "src/main/java/dev/culp/Day$1.java"
+package dev.culp;
+
+import java.util.List;
+
+public final class Day$1 extends Puzzle<String> {
+
+  Day$1() {
+    super($1, line -> line);
+  }
+
+  @Override
+  public long part1(List<String> input) {
+    return 0;
+  }
+
+  @Override
+  public long part2(List<String> input) {
+    return 0;
+  }
+}
+EOF
