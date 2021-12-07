@@ -29,6 +29,7 @@ class AocTests {
         arguments(new Day3(), 198L, 230L),
         arguments(new Day4(), 4512L, 1924L),
         arguments(new Day5(), 5L, 12L),
-        arguments(new Day6(), 5934L, 26984457539L));
+        arguments(new Day6(), 5934L, 26984457539L),
+        arguments(new Day7(), 37L, 168L));
   }
 }
