@@ -25,7 +25,6 @@ public abstract class Puzzle<T> {
     final var part2 = part2(inputs.input());
     return new Result(part1Example, part1, part2Example, part2);
   }
-  ;
 
   abstract long part1(List<T> input);
 
